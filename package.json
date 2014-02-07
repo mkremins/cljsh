@@ -1,0 +1,10 @@
+{
+  "name": "cljsh",
+  "main": "index.html",
+  "window": {
+    "width": 1000,
+    "height": 700,
+    "position": "mouse",
+    "toolbar": true // debug
+  }
+}

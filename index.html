@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>cljsh</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="navinfo">
+    <p><span class="label">pwd</span> ~/dev/cljsh</p>
+    <p><span class="label">git</span> branch master (2 uncommitted changes)</p>
+  </div>
+  <div id="log">
+    <div class="entry">
+      <p><span class="prompt">$</span> cd "dev/cljsh"</p>
+    </div>
+  </div>
+  <div id="prompt">
+    <p><span class="prompt">$</span> <input id="input" type="text" autofocus></input></p>
+  </div>
+  <script>
+  var input = document.getElementById('input');
+  var log = document.getElementById('log');
+  function makeLogEntry(content) {
+    var div = document.createElement('div');
+    div.classList.add('entry');
+    div.innerHTML = '<span class="prompt">$</span> ' + content;
+    return div;
+  }
+  input.addEventListener('keydown', function(ev) {
+    if ((ev.key || ev.keyCode || ev.which) == 13) {
+      log.appendChild(makeLogEntry(input.value));
+      input.value = "";
+    }
+  });
+  </script>
+</body>
+</html>
