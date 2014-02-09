@@ -24,6 +24,10 @@ body {
 #log .entry {
   margin-bottom: 1rem;
 }
+#log .out {
+  color: #999;
+  text-align: right;
+}
 #prompt  {
   border-top: 1px solid #ddd;
   padding-top: 1rem;
