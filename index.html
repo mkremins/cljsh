@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>cljsh</title>
+  <script src="js/out/goog/base.js"></script>
+  <script src="js/app.js"></script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -19,21 +21,6 @@
   <div id="prompt">
     <p><span class="prompt">$</span> <input id="input" type="text" autofocus></input></p>
   </div>
-  <script>
-  var input = document.getElementById('input');
-  var log = document.getElementById('log');
-  function makeLogEntry(content) {
-    var div = document.createElement('div');
-    div.classList.add('entry');
-    div.innerHTML = '<span class="prompt">$</span> ' + content;
-    return div;
-  }
-  input.addEventListener('keydown', function(ev) {
-    if ((ev.key || ev.keyCode || ev.which) == 13) {
-      log.appendChild(makeLogEntry(input.value));
-      input.value = "";
-    }
-  });
-  </script>
+  <script>goog.require('app');</script>
 </body>
 </html>
