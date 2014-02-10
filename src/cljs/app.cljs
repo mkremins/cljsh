@@ -1,5 +1,6 @@
 (ns app
-  (:require [cljs.repl :as repl]))
+  (:require [cljs.repl :as repl]
+            [goog.events.KeyCodes :as key]))
 
 (def log (.getElementById js/document "log"))
 
@@ -41,17 +42,20 @@
   (or (.-key ev) (.-keyCode ev) (.-which ev)))
 
 (def keybinds
-  {13 (fn [input]
-        (let [code (.-value input)]
-          (eval-print! code)
-          (add-history-item! code))
-        (set! (.-value input) ""))
+  {key/ENTER
+   (fn [input]
+     (let [code (.-value input)]
+       (eval-print! code)
+       (add-history-item! code))
+     (set! (.-value input) ""))
 
-   38 (fn [input]
-        (set! (.-value input) (prev-history-item!)))
+   key/UP
+   (fn [input]
+     (set! (.-value input) (prev-history-item!)))
 
-   40 (fn [input]
-        (set! (.-value input) (next-history-item!)))})
+   key/DOWN
+   (fn [input]
+     (set! (.-value input) (next-history-item!)))})
 
 (defn handle-key [ev]
   (when-let [keybind (keybinds (key-code ev))]
