@@ -11,11 +11,17 @@
     (swap! session update-in [:history :commands] #(conj % code))
     (swap! session assoc-in [:history :cursor] next-cursor)))
 
+(defn next-history-item! []
+  (let [{:keys [commands cursor]} (:history @session)]
+    (when-let [next-item (get commands (inc cursor))]
+      (swap! session update-in [:history :cursor] inc)
+      next-item)))
+
 (defn prev-history-item! []
   (let [{:keys [commands cursor]} (:history @session)]
-    (when-let [prev (get commands cursor)]
+    (when-let [prev-item (get commands cursor)]
       (swap! session update-in [:history :cursor] dec)
-      prev)))
+      prev-item)))
 
 (defn log-entry [in out]
   (let [entry (.createElement js/document "div")]
@@ -40,7 +46,10 @@
         (set! (.-value input) ""))
 
    38 (fn [input]
-        (set! (.-value input) (prev-history-item!)))})
+        (set! (.-value input) (prev-history-item!)))
+
+   40 (fn [input]
+        (set! (.-value input) (next-history-item!)))})
 
 (defn handle-key [ev]
   (when-let [keybind (keybinds (key-code ev))]
