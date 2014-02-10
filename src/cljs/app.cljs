@@ -7,22 +7,45 @@
 (def session
   (atom {:history {:commands [] :cursor 0}}))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; history: pure functions returning modified copies of immutable datastructure
+
+(defn append-item [history code]
+  (-> history
+    (update-in [:commands] #(conj % code))
+    (assoc :cursor (count (:commands history)))))
+
+(defn read-item [{:keys [commands cursor]}]
+  (get commands cursor))
+
+(defn advance-cursor [history]
+  (let [new-history (update-in history [:cursor] inc)]
+    (if (read-item new-history) new-history history)))
+
+(defn withdraw-cursor [history]
+  (let [new-history (update-in history [:cursor] dec)]
+    (if (read-item new-history) new-history history)))
+
+;; history: impure functions modifying atomic (mutable) session state
+
 (defn add-history-item! [code]
-  (let [next-cursor (count (get-in @session [:history :commands]))]
-    (swap! session update-in [:history :commands] #(conj % code))
-    (swap! session assoc-in [:history :cursor] next-cursor)))
+  (swap! session update-in [:history] #(append-item % code)))
 
 (defn next-history-item! []
-  (let [{:keys [commands cursor]} (:history @session)]
-    (when-let [next-item (get commands (inc cursor))]
-      (swap! session update-in [:history :cursor] inc)
-      next-item)))
+  (let [history (:history @session)
+        new-history (advance-cursor history)]
+    (when-not (= (:cursor history) (:cursor new-history))
+      (swap! session assoc-in [:history] new-history)
+      (read-item new-history))))
 
 (defn prev-history-item! []
-  (let [{:keys [commands cursor]} (:history @session)]
-    (when-let [prev-item (get commands cursor)]
-      (swap! session update-in [:history :cursor] dec)
+  (let [history (:history @session)]
+    (when-let [prev-item (read-item history)]
+      (swap! session update-in [:history] withdraw-cursor)
       prev-item)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn log-entry [code {:keys [error value]}]
   (let [entry (.createElement js/document "div")
