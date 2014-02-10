@@ -25,8 +25,13 @@ body {
   margin-bottom: 1rem;
 }
 #log .out {
-  color: #999;
   text-align: right;
+}
+#log .out.err {
+  color: #ff0000;
+}
+#log .out.ok {
+  color: #999;
 }
 #prompt  {
   border-top: 1px solid #ddd;

@@ -23,17 +23,19 @@
       (swap! session update-in [:history :cursor] dec)
       prev-item)))
 
-(defn log-entry [in out]
-  (let [entry (.createElement js/document "div")]
+(defn log-entry [code result]
+  (let [entry (.createElement js/document "div")
+        result (if-let [err (:error result)]
+                 (str "<p class=\"err out\">" err "</p>")
+                 (str "<p class=\"ok out\">" (:value result) "</p>"))]
     (.add (.-classList entry) "entry")
     (set! (.-innerHTML entry)
-          (str "<p class=\"in\"><span class=\"prompt\">$</span> " in "</p>"
-               "<p class=\"out\">" out "</p>"))
+          (str "<p class=\"in\"><span class=\"prompt\">$</span> " code "</p>"
+               result))
     entry))
 
 (defn eval-print! [code]
-  (let [result (repl/evaluate-code code)]
-    (.appendChild log (log-entry code (:value result)))))
+  (.appendChild log (log-entry code (repl/evaluate-code code))))
 
 (defn key-code [ev]
   (or (.-key ev) (.-keyCode ev) (.-which ev)))
