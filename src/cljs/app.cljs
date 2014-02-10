@@ -24,11 +24,11 @@
       (swap! session update-in [:history :cursor] dec)
       prev-item)))
 
-(defn log-entry [code result]
+(defn log-entry [code {:keys [error value]}]
   (let [entry (.createElement js/document "div")
-        result (if-let [err (:error result)]
-                 (str "<p class=\"err out\">" err "</p>")
-                 (str "<p class=\"ok out\">" (:value result) "</p>"))]
+        result (if error
+                 (str "<p class=\"err out\">" error "</p>")
+                 (str "<p class=\"ok out\">" value "</p>"))]
     (.add (.-classList entry) "entry")
     (set! (.-innerHTML entry)
           (str "<p class=\"in\"><span class=\"prompt\">$</span> " code "</p>"
