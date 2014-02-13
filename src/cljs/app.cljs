@@ -1,7 +1,8 @@
 (ns app
   (:require [cljs.repl :as repl]
             [clojure.browser.dom :as dom]
-            [goog.events.KeyCodes :as key]))
+            [goog.events.KeyCodes :as key]
+            [sh]))
 
 (def log (.getElementById js/document "log"))
 
