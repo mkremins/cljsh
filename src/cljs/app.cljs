@@ -1,5 +1,6 @@
 (ns app
   (:require [cljs.repl :as repl]
+            [clojure.browser.dom :as dom]
             [goog.events.KeyCodes :as key]))
 
 (def log (.getElementById js/document "log"))
@@ -51,15 +52,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn log-entry [code {:keys [error value]}]
-  (let [entry (.createElement js/document "div")
-        result (if error
-                 (str "<p class=\"err out\">" error "</p>")
-                 (str "<p class=\"ok out\">" value "</p>"))]
-    (.add (.-classList entry) "entry")
-    (set! (.-innerHTML entry)
-          (str "<p class=\"in\"><span class=\"prompt\">$</span> " code "</p>"
-               result))
-    entry))
+  (dom/element
+    [:div {:class "entry"}
+          [:p {:class "in"} [:span {:class "prompt"} "$ "] code]
+          (if error
+            [:p {:class "err out"} (str error)]
+            [:p {:class "ok out"} (str value)])]))
 
 (defn eval-print! [code]
   (.appendChild log (log-entry code (repl/evaluate-code code))))
