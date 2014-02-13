@@ -1,1 +1,15 @@
+# ClojureScript compiler and dependencies
+bin/
+lib/
+
+# Compiled JavaScript
 js/
+out/
+
+# Stuff from cljs_in_cljs (has to be in ./src to compile, even though it
+# doesn't really belong there per se)
+src/clj/
+src/cljs/cljsc.cljs
+src/cljs/goog.js
+src/cljs/cljs/
+src/cljs/clojure/
