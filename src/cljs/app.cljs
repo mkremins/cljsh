@@ -56,8 +56,8 @@
     [:div {:class "entry"}
           [:p {:class "in"} [:span {:class "prompt"} "$ "] code]
           (if error
-            [:p {:class "err out"} (str error)]
-            [:p {:class "ok out"} (str value)])]))
+            [:p {:class "err out"} (pr-str error)]
+            [:p {:class "ok out"} (pr-str value)])]))
 
 (defn eval-print! [code]
   (.appendChild log (log-entry code (repl/evaluate-code code))))
