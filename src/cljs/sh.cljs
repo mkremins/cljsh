@@ -16,7 +16,7 @@
   (= (first fpath) "/"))
 
 (defn expand-path [fpath]
-  (let [fpath (string/replace fpath #"~" (home))]
+  (let [fpath (string/replace fpath "~" (home))]
     (if (absolute-path? fpath)
       fpath
       (str (cwd) "/" fpath))))
