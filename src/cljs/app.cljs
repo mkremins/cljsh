@@ -90,3 +90,4 @@
 (repl/init)
 (let [input (.getElementById js/document "input")]
   (.addEventListener input "keydown" handle-key))
+(sh/cd "~")
