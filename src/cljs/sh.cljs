@@ -3,11 +3,14 @@
             [clojure.string :as string]
             [goog.dom :as gdom]))
 
-(defn cwd []
-  (.cwd js/process))
-
 (defn home []
   (aget js/process "env" "HOME"))
+
+(defn collapse-path [fpath]
+  (string/replace fpath (home) "~"))
+
+(defn cwd []
+  (.cwd js/process))
 
 (defn absolute-path? [fpath]
   (= (first fpath) "/"))
@@ -24,9 +27,10 @@
 
 (defn cd [dir]
   (.chdir js/process (expand-path dir))
-  (set! (.-innerHTML (.querySelector js/document "#cwd .wd")) (cwd))
+  (set! (.-innerHTML (.querySelector js/document "#cwd .wd"))
+        (collapse-path (cwd)))
   (let [files (.querySelector js/document "#cwd .columns-list")]
     (gdom/removeChildren files)
     (doseq [file (ls)]
       (dom/append files (dom/element [:li {} file]))))
-  (cwd))
+  (collapse-path (cwd)))
