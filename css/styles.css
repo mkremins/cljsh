@@ -9,21 +9,38 @@ html, body {
 }
 
 body {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: column wrap;
+  flex-flow: column wrap;
   font-family: Menlo;
   font-size: 13px;
   padding: 1rem 40px;
 }
 
-#navinfo {
-  border-bottom: 1px solid #ddd;
-  height: 7.5%;
+#sidebar {
+  border-left: 1px solid #ddd;
+  padding-top: 1rem;
+  height: 100%;
+  width: 30%;
+}
+
+.sidebar-pane {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
+  padding: 0 1.5rem;
+}
+
+.sidebar-pane p {
+  margin-bottom: 1rem;
 }
 
 #log {
   height: 82.5%;
   overflow-y: scroll;
   padding-top: 1rem;
-  width: 100%;
+  padding-right: 2rem;
+  width: 70%;
 }
 
 #log .entry {
@@ -45,8 +62,9 @@ body {
 #input-area {
   border-top: 1px solid #ddd;
   padding-top: 1rem;
+  padding-right: 1rem;
   height: 10%;
-  width: 100%;
+  width: 70%;
 }
 
 #input-area input[type="text"] {
@@ -62,4 +80,20 @@ body {
 
 .label {
   font-weight: bold;
+}
+
+.columns-list {
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: column wrap;
+  flex-flow: column wrap;
+  height: 5rem;
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.columns-list li {
+  padding-right: 1.5rem;
 }

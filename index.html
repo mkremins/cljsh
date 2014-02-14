@@ -8,10 +8,6 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div id="navinfo">
-    <p><span class="label">pwd</span> ~/dev/cljsh</p>
-    <p><span class="label">git</span> branch master (2 uncommited changes)</p>
-  </div>
   <div id="log">
     <div class="entry">
       <p class="in"><span class="prompt">$</span> cd dev/cljsh</p>
@@ -20,6 +16,27 @@
   </div>
   <div id="input-area">
     <p><span class="prompt">$</span> <input id="input" type="text" autofocus></input></p>
+  </div>
+  <div id="sidebar">
+    <div class="sidebar-pane">
+      <p><span class="label">cwd</span> ~/dev/cljsh</p>
+      <ul class="columns-list">
+        <li>bin/</li>
+        <li>css/</li>
+        <li>js/</li>
+        <li>lib/</li>
+        <li>src/</li>
+        <li>.DS_Store</li>
+        <li>.gitignore</li>
+        <li>build.sh</li>
+        <li>index.html</li>
+        <li>package.json</li>
+      </ul>
+    </div>
+    <div class="sidebar-pane">
+      <p><span class="label">git</span> branch master</p>
+      <p>unstaged: 2 / staged: 3</p>
+    </div>
   </div>
   <script>goog.require('app');</script>
 </body>
