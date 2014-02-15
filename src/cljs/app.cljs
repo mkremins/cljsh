@@ -61,7 +61,8 @@
             [:p {:class "ok out"} (pr-str value)])]))
 
 (defn eval-print! [code]
-  (.appendChild log (log-entry code (repl/evaluate-code code))))
+  (.appendChild log (log-entry code (repl/evaluate-code code)))
+  (set! (.-scrollTop log) (.-scrollHeight log)))
 
 (defn key-code [ev]
   (or (.-key ev) (.-keyCode ev) (.-which ev)))
