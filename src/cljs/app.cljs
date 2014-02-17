@@ -102,5 +102,6 @@
 
 (repl/init)
 (let [input (.getElementById js/document "input")]
-  (.addEventListener input "keydown" handle-key))
+  (.addEventListener input "keydown" handle-key)
+  (.focus input))
 (sh/cd "~")
