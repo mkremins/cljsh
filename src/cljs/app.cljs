@@ -60,28 +60,27 @@
             [:p {:class "err out"} (pr-str error)]
             [:p {:class "ok out"} (pr-str value)])]))
 
-(defn eval-print! [code]
-  (.appendChild log (log-entry code (repl/evaluate-code code)))
-  (set! (.-scrollTop log) (.-scrollHeight log)))
-
 (defn key-code [ev]
   (or (.-key ev) (.-keyCode ev) (.-which ev)))
 
 (def keybinds
   {key/ENTER
    (fn [input]
-     (let [code (.-innerText input)]
-       (eval-print! code)
-       (add-history-item! code))
-     (set! (.-innerText input) ""))
+     (let [code (.-textContent input)
+           {:keys [error] :as result} (repl/evaluate-code code)]
+       (when-not (and error (re-find #"EOF while reading" (.-message error)))
+         (.appendChild log (log-entry code result))
+         (set! (.-scrollTop log) (.-scrollHeight log))
+         (set! (.-textContent input) "")
+         (add-history-item! code))))
 
    key/UP
    (fn [input]
-     (set! (.-innerText input) (prev-history-item!)))
+     (set! (.-textContent input) (prev-history-item!)))
 
    key/DOWN
    (fn [input]
-     (set! (.-innerText input) (next-history-item!)))})
+     (set! (.-textContent input) (next-history-item!)))})
 
 (defn handle-key [ev]
   (when-let [keybind (keybinds (key-code ev))]
