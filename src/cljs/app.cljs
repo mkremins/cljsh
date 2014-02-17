@@ -1,6 +1,7 @@
 (ns app
   (:require [cljs.repl :as repl]
             [clojure.browser.dom :as dom]
+            [clojure.string :as string]
             [goog.events.KeyCodes :as key]
             [sh]))
 
@@ -63,10 +64,22 @@
 (defn key-code [ev]
   (or (.-key ev) (.-keyCode ev) (.-which ev)))
 
+(defn nodelist-to-seq
+  "Converts nodelist to (non-lazy) seq."
+  [nl]
+  (let [result-seq (map #(.item nl %) (range (.-length nl)))]
+    (doall result-seq)))
+
+(defn read-input [elem]
+  (->> (.-childNodes elem)
+    (nodelist-to-seq)
+    (map #(.-textContent %))
+    (string/join " ")))
+
 (def keybinds
   {key/ENTER
    (fn [input]
-     (let [code (.-textContent input)
+     (let [code (read-input input)
            {:keys [error] :as result} (repl/evaluate-code code)]
        (when-not (and error (re-find #"EOF while reading" (.-message error)))
          (.appendChild log (log-entry code result))
