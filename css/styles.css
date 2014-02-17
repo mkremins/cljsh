@@ -60,16 +60,20 @@ body {
 }
 
 #input-area {
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
   border-top: 1px solid #ddd;
+  display: -webkit-flex;
+  display: flex;
   padding-top: 1rem;
   padding-right: 1rem;
   height: 10%;
   width: 70%;
 }
 
-#input-area input[type="text"] {
+#input {
   border: none;
-  font: inherit;
+  margin-left: .5rem;
   outline: none;
   width: 95%;
 }

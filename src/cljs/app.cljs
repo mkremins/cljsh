@@ -70,18 +70,18 @@
 (def keybinds
   {key/ENTER
    (fn [input]
-     (let [code (.-value input)]
+     (let [code (.-innerText input)]
        (eval-print! code)
        (add-history-item! code))
-     (set! (.-value input) ""))
+     (set! (.-innerText input) ""))
 
    key/UP
    (fn [input]
-     (set! (.-value input) (prev-history-item!)))
+     (set! (.-innerText input) (prev-history-item!)))
 
    key/DOWN
    (fn [input]
-     (set! (.-value input) (next-history-item!)))})
+     (set! (.-innerText input) (next-history-item!)))})
 
 (defn handle-key [ev]
   (when-let [keybind (keybinds (key-code ev))]
