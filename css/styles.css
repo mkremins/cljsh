@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:200,300,400,500,600,700,900);
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,7 +15,7 @@ body {
   display: flex;
   -webkit-flex-flow: column wrap;
   flex-flow: column wrap;
-  font-family: Menlo;
+  font-family: 'Source Code Pro', Menlo;
   font-size: 13px;
   padding: 1rem 40px;
 }
@@ -83,7 +85,7 @@ body {
 }
 
 .label {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .columns-list {
